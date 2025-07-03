@@ -1,7 +1,7 @@
-t = 0  # Toplam değişkenini başlat
+t = 0 
 while True:
     s = int(input("Bir sayı girin (0 ile bitirin): "))
-    t += s  # Girilen sayıyı toplama ekle
+    t += s
     if s == 0:
         print(f"Girilen sayıların toplamı: {t}")
         break
