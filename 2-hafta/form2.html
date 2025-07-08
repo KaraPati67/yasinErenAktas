@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Tasarımı</title>
+
+    <style>
+        .dark-switch {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+        .dark-switch input[type="checkbox"] {
+            width: 36px;
+            height: 20px;
+            appearance: none;
+            background: #ccc;
+            border-radius: 12px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+        .dark-switch input[type="checkbox"]:checked {
+            background: #646464;
+        }
+        .dark-switch input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: #00bfff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            transform: translateX(16px);
+        }
+        .dark-switch input[type="checkbox"]:checked::before {
+            transform: translateX(0);
+            background-color: #ccc;
+        }
+        .dark-mode {
+            background: #181a1b !important;
+        }
+        .dark-mode, .dark-mode * {
+            color: #fff !important;
+        }
+        .dark-mode .form-container {
+            background: #23272b !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        .dark-mode .form-group input,
+        .dark-mode .form-group textarea {
+            background: #23272b;
+            border: 1px solid #444;
+        }
+        .dark-mode .form-group input:focus,
+        .dark-mode .form-group textarea:focus {
+            border-color: #00bfff;
+        }
+        .dark-mode .form-btn {
+            background: #00bfff;
+            color: #23272b !important;
+        }
+        .dark-mode .form-btn:hover {
+            background: #0099cc;
+        }
+        .dark-mode .form-message {
+            color: #00bfff !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-switch">
+        <input type="checkbox" id="tema-toggle">
+        <label for="darkModeSwitch" style="user-select:none;cursor:pointer;"></label>
+    </div>
+    <div class="form-container">
+        <form>
+            <div class="form-group">
+                <label for="name">Adınız:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-posta:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+</body>
+<script>
+    const temaToggle = document.getElementById('tema-toggle');
+    temaToggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode', temaToggle.checked);
+    });
+</script>
+</html>

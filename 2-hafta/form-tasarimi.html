@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Form Tasarımı</title>
+    <style>
+        .dark-mode {
+            background: #181a1b !important;
+        }
+        .dark-mode, .dark-mode * {
+            color: #fff !important;
+        }
+        .dark-mode {
+            background: #181a1b !important;
+        }
+        .dark-mode .form-container {
+            background: #23272b !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        .dark-mode .form-group input,
+        .dark-mode .form-group textarea {
+            background: #23272b;
+            border: 1px solid #444;
+        }
+        .dark-mode .form-group input:focus,
+        .dark-mode .form-group textarea:focus {
+            border-color: #00bfff;
+        }
+        .dark-mode .form-btn {
+            background: #00bfff;
+            color: #23272b !important;
+        }
+        .dark-mode .form-btn:hover {
+            background: #0099cc;
+        }
+        .dark-mode .form-message {
+            color: #00bfff !important;
+        }
+        .dark-switch {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        .dark-switch input[type="checkbox"] {
+            width: 36px;
+            height: 20px;
+            appearance: none;
+            background: #ccc;
+            border-radius: 12px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0,2s;
+            position: relative;
+        }
+        .dark-switch input[type="checkbox"]:checked {
+            background: #333;
+        }
+        .dark-switch input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.2s;
+        }
+        .dark-switch input[type="checkbox"]:checked::before {
+            left: 20px;
+            background: #00bfff;
+        }
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: #fff;
+            padding: 32px 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            width: 350px;
+        }
+        .form-container h2 {
+            margin-bottom: 18px;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+        }
+        .form-group input, .form-group textarea {
+            width: 323px;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #0078d7;
+            outline: none;
+        }
+        .form-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .form-btn:hover {
+            background: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-switch">
+        <input type="checkbox" id="darkModeSwitch">
+        <label for="darkModeSwitch" style="user-select:none;cursor:pointer;">Karanlık Mod</label>
+    </div>
+    <div class="form-container">
+        <h2>İletişim Formu</h2>
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Ad</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="soyad">Soyad</label>
+                <input id="soyad" name="soyad" required>
+            <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            </div>
+            <button type="submit" class="form-btn">Gönder</button>
+            <div class="form-message" id="formMessage"></div>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+        const darkSwitch = document.getElementById('darkModeSwitch');
+        darkSwitch.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', darkSwitch.checked);
+        });
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            formMessage.textContent = 'Mesajınız başarıyla gönderildi!';
+            form.reset();
+        });
+    </script>
+</body>
+</html>
