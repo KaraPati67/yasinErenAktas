@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Kartları</title>
+    <style>
+        body {
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            width: 250px;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+        }
+        .product-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #222;
+            text-align: center;
+        }
+        .product-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .product-price {
+            font-size: 1.1rem;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .buy-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .buy-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center; color:#333;">Ürünler</h1>
+    <div class="product-list">
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 1">
+            <div class="product-title">Ürün 1</div>
+            <div class="product-desc">Kısa ürün açıklaması buraya gelecek.</div>
+            <div class="product-price">₺199,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 2">
+            <div class="product-title">Ürün 2</div>
+            <div class="product-desc">Bu ürünün açıklaması da burada.</div>
+            <div class="product-price">₺299,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 3">
+            <div class="product-title">Ürün 3</div>
+            <div class="product-desc">Üçüncü ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 4">
+            <div class="product-title">Ürün 4</div>
+            <div class="product-desc">Ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 5">
+            <div class="product-title">Ürün 3</div>
+            <div class="product-desc">Üçüncü ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+            
+    </div>
+
+    <script>
+    // Modalı ekle
+    document.body.insertAdjacentHTML('beforeend', `
+    <div id="payment-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:999;justify-content:center;align-items:center;">
+      <div style="background:#fff;padding:2rem 2.5rem;border-radius:10px;box-shadow:0 2px 16px rgba(0,0,0,0.18);min-width:320px;max-width:90vw;display:flex;flex-direction:column;align-items:center;">
+        <h2>Ödeme Ekranı</h2>
+        <label>Ad Soyad<br><input type="text" style="width:100%;margin-bottom:1rem;"></label>
+        <label>Kart Numarası<br><input type="text" maxlength="19" style="width:100%;margin-bottom:1rem;"></label>
+        <label>Son Kullanma Tarihi<br><input type="text" placeholder="AA/YY" maxlength="5" style="width:100%;margin-bottom:1rem;"></label>
+        <label>CVC<br><input type="text" maxlength="4" style="width:100%;margin-bottom:1rem;"></label>
+        <button id="pay-btn" style="background:#007bff;color:#fff;border:none;border-radius:4px;padding:0.5rem 1.5rem;font-size:1rem;cursor:pointer;margin-bottom:1rem;">Ödemeyi Tamamla</button>
+        <button id="close-modal" style="background:#dc3545;color:#fff;border:none;border-radius:4px;padding:0.3rem 1.2rem;font-size:0.95rem;cursor:pointer;">Kapat</button>
+        <div id="payment-success" style="display:none;color:green;margin-top:1rem;font-weight:bold;">Ödeme başarılı!</div>
+      </div>
+    </div>
+    `);
+    const paymentModal = document.getElementById('payment-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const payBtn = document.getElementById('pay-btn');
+    const paymentSuccess = document.getElementById('payment-success');
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        paymentModal.style.display = 'flex';
+        paymentSuccess.style.display = 'none';
+      });
+    });
+    closeModalBtn.onclick = () => paymentModal.style.display = 'none';
+    payBtn.onclick = () => {
+      paymentSuccess.style.display = 'block';
+      setTimeout(()=> paymentModal.style.display = 'none', 1500);
+    };
+    </script>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 6">
+            <div class="product-title">Ürün 3</div>
+            <div class="product-desc">Üçüncü ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 7">
+            <div class="product-title">Ürün 3</div>
+            <div class="product-desc">Üçüncü ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+        <div class="product-card">
+            <img class="product-image" src="https://via.placeholder.com/120" alt="Ürün 8">
+            <div class="product-title">Ürün 3</div>
+            <div class="product-desc">Üçüncü ürünün kısa açıklaması.</div>
+            <div class="product-price">₺149,99</div>
+            <button class="buy-btn">Satın Al</button>
+        </div>
+    </div>
+</body>
+</html>

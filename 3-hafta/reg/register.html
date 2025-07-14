@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    body {
+        background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container {
+        background: #fff;
+        max-width: 370px;
+        margin: 40px auto;
+        padding: 2.5rem 2rem 2rem 2rem;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(102,166,255,0.18);
+        position: relative;
+        overflow: hidden;
+    }
+    h1 {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+    }
+    .input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        background: #f4f8fb;
+        border-radius: 6px;
+        padding: 0.2rem 0.7rem;
+        border: 1px solid #e3eaf1;
+    }
+    .input-group input {
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 0.7rem 0.5rem;
+        font-size: 1rem;
+        flex: 1;
+        color: #333;
+    }
+    .input-group input::placeholder {
+        color: #b0b8c1;
+    }
+    .input-group .icon {
+        margin-right: 0.5rem;
+        color: #66a6ff;
+        font-size: 1.2rem;
+    }
+    #register-btn {
+        width: 100%;
+        padding: 0.7rem 0;
+        background: linear-gradient(90deg, #66a6ff 0%, #89f7fe 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(102,166,255,0.13);
+        transition: background 0.2s, transform 0.2s;
+        margin-top: 0.5rem;
+    }
+    #register-btn:hover {
+        background: linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    #register-error, #register-success {
+        text-align: center;
+        font-size: 1rem;
+        margin-top: 1.2rem;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kayıt Ol</h1>
+        <form id="register-form" autocomplete="off">
+            <div class="input-group">
+                <span class="icon">👤</span>
+                <input type="text" id="username" name="username" placeholder="Kullanıcı Adı" required minlength="3">
+            </div>
+            <div class="input-group">
+                <span class="icon">🔒</span>
+                <input type="password" id="password" name="password" placeholder="Şifre" required minlength="6">
+            </div>
+            <div class="input-group">
+                <span class="icon">🔒</span>
+                <input type="password" id="password2" name="password2" placeholder="Şifre Tekrar" required minlength="6">
+            </div>
+            <button type="submit" id="register-btn">Kayıt Ol</button>
+            <div id="register-error" style="color:#dc3545;margin-top:1rem;"></div>
+            <div id="register-success" style="color:green;margin-top:1rem;"></div>
+        <div id="success-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(102,166,255,0.18);padding:2rem 2.5rem;z-index:9999;text-align:center;min-width:220px;">
+            <span style="font-size:2.2rem;display:block;margin-bottom:0.5rem;">✅</span>
+            <div style="color:#28a745;font-size:1.1rem;font-weight:bold;">Kayıt başarılı!</div>
+        </div>
+        </form>
+    </div>
+    <script>
+    // HTML5 validasyonu ve şifre eşleşme kontrolü
+    const form = document.getElementById('register-form');
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('password2');
+    const errorDiv = document.getElementById('register-error');
+    const successDiv = document.getElementById('register-success');
+    const successModal = document.getElementById('success-modal');
+    form.onsubmit = function(e) {
+        errorDiv.textContent = '';
+        successDiv.textContent = '';
+        if (!form.checkValidity()) {
+            errorDiv.textContent = 'Tüm alanları doğru doldurun.';
+            e.preventDefault();
+            return;
+        }
+        if (password.value !== password2.value) {
+            errorDiv.textContent = 'Şifreler eşleşmiyor.';
+            e.preventDefault();
+            return;
+        }
+        // Başarılı modalı göster
+        successModal.style.display = 'block';
+        setTimeout(() => {
+            successModal.style.display = 'none';
+        }, 1800);
+        e.preventDefault();
+        form.reset();
+    };
+    </script>
+</body>
+</html>
