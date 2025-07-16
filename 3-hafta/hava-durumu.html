@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hava Durumu</title>
+    <style>
+        body { background: #e3f0ff; font-family: Arial, sans-serif; }
+        .weather-container {
+            background: #fff;
+            max-width: 350px;
+            margin: 60px auto;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(102,166,255,0.13);
+            text-align: center;
+        }
+        input, button {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #b3d1f7;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        button { background: #66a6ff; color: #fff; border: none; cursor: pointer; }
+        button:hover { background: #007bff; }
+        .result { margin-top: 1.2rem; font-size: 1.1rem; }
+        .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h2>Hava Durumu</h2>
+        <select id="country" style="width:100%;margin-bottom:1rem;">
+            <option value="">Ülke seçin</option>
+            <option value="TR">Türkiye</option>
+            <option value="US">ABD</option>
+            <option value="DE">Almanya</option>
+            <option value="FR">Fransa</option>
+            <option value="GB">İngiltere</option>
+        </select>
+        <select id="city" style="width:100%;margin-bottom:1rem;" disabled>
+            <option value="">Önce ülke seçin</option>
+        </select>
+        <button onclick="getWeather()">Sorgula</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+    // Ülke-şehir eşlemesi (örnekler)
+    const cityData = {
+        TR: ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Adana", "Konya", "Gaziantep", "Kayseri", "Eskişehir"],
+        US: ["New York", "Los Angeles", "Chicago", "Houston", "Miami", "San Francisco", "Boston", "Seattle", "Dallas", "Washington"],
+        DE: ["Berlin", "Hamburg", "Münih", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Leipzig"],
+        FR: ["Paris", "Marsilya", "Lyon", "Toulouse", "Nice", "Nantes", "Strazburg", "Montpellier", "Bordeaux", "Lille"],
+        GB: ["Londra", "Manchester", "Birmingham", "Liverpool", "Leeds", "Sheffield", "Bristol", "Newcastle", "Nottingham", "Leicester"]
+    };
+
+    const countrySelect = document.getElementById('country');
+    const citySelect = document.getElementById('city');
+    countrySelect.addEventListener('change', function() {
+        const val = this.value;
+        citySelect.innerHTML = '';
+        if (!val || !cityData[val]) {
+            citySelect.innerHTML = '<option value="">Önce ülke seçin</option>';
+            citySelect.disabled = true;
+            return;
+        }
+        citySelect.disabled = false;
+        citySelect.innerHTML = '<option value="">Şehir seçin</option>' + cityData[val].map(c => `<option value="${c}">${c}</option>`).join('');
+    });
+
+    async function getWeather() {
+        const country = countrySelect.value;
+        const city = citySelect.value;
+        const result = document.getElementById('result');
+        if (!country || !city) {
+            result.innerHTML = 'Lütfen ülke ve şehir seçin.';
+            return;
+        }
+        result.innerHTML = 'Yükleniyor...';
+        try {
+            // Open-Meteo API (ücretsiz, anahtar gerekmez)
+            const geo = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=tr&format=json&country=${country}`);
+            const geoData = await geo.json();
+            if (!geoData.results || geoData.results.length === 0) {
+                result.innerHTML = 'Şehir bulunamadı.';
+                return;
+            }
+            const { latitude, longitude, name, country: countryName } = geoData.results[0];
+            const weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&timezone=auto`);
+            const weatherData = await weather.json();
+            if (!weatherData.current_weather) {
+                result.innerHTML = 'Hava durumu alınamadı.';
+                return;
+            }
+            const w = weatherData.current_weather;
+            const icons = {
+                0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️', 45: '🌫️', 48: '🌫️', 51: '🌦️', 53: '🌦️', 55: '🌦️', 61: '🌧️', 63: '🌧️', 65: '🌧️', 71: '🌨️', 73: '🌨️', 75: '🌨️', 80: '🌦️', 81: '🌦️', 82: '🌦️', 95: '⛈️', 96: '⛈️', 99: '⛈️'
+            };
+            result.innerHTML = `<div class="icon">${icons[w.weathercode] || '❓'}</div>
+                <b>${name}, ${countryName}</b><br>
+                Sıcaklık: <b>${w.temperature}°C</b><br>
+                Rüzgar: ${w.windspeed} km/s<br>
+                Durum: ${weatherDesc(w.weathercode)}`;
+        } catch (err) {
+            result.innerHTML = 'Bir hata oluştu.';
+        }
+    }
+    function weatherDesc(code) {
+        const map = {
+            0: 'Açık', 1: 'Az Bulutlu', 2: 'Parçalı Bulutlu', 3: 'Kapalı',
+            45: 'Sisli', 48: 'Sisli', 51: 'Çiseli', 53: 'Çiseli', 55: 'Çiseli',
+            61: 'Hafif Yağmurlu', 63: 'Yağmurlu', 65: 'Kuvvetli Yağmurlu',
+            71: 'Hafif Karlı', 73: 'Karlı', 75: 'Yoğun Kar',
+            80: 'Sağanak', 81: 'Kuvvetli Sağanak', 82: 'Şiddetli Sağanak',
+            95: 'Fırtına', 96: 'Fırtına', 99: 'Fırtına'
+        };
+        return map[code] || 'Bilinmiyor';
+    }
+    </script>
+</body>
+</html>
