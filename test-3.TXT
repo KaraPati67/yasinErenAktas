@@ -1,0 +1,57 @@
+1. hafta 3. test
+
+1. # karakteri Python'da ne işe yarar?
+
+1.Cevap : açıklama satırı yapar
+
+2. Aşağıdaki kodun çıktısı ne olur?
+
+   python
+   a = 3
+   b = 4
+   print(a * b)
+   
+2.Cevap : 12 şeklinde çıktı olur
+
+3. Değişken ismi olarak aşağıdakilerden hangisi geçerlidir?
+   a) 3sayi
+   b) sayi_3
+   c) sayi-3
+   d) for
+
+3. Cevap : b
+
+4. Aşağıdaki kodda hata var mı? Varsa nedir?
+
+   python
+   print("Merhaba"
+
+4.Cevap : sonda ")" eksik
+
+5. not anahtar kelimesi ne işe yarar?
+
+5.Cevap : girilen koşulu tersine çevirir
+
+6. += operatörü ne işe yarar? Örnekle açıklayınız.
+
+6.Cevap : başına veklenen değişken ile sonuna eklenen sayı veya değişkenle toplayıp başta girilen sayıya eşitler
+sayi += b
+
+7. Python’da bir sayının hem 3’e hem de 5’e bölünebildiğini kontrol etmek için hangi koşul yapısı yazılır?
+
+7.Cevap : if(sayi % 3 == 0 and sayi % 5 == 0) yazmamız gerekir
+
+8. break ve continue arasındaki fark nedir?
+
+8.Cevap : continue döngünün o adımını atlar , break döngüyü sonlandırır
+
+9. str(), int(), float() gibi fonksiyonlara ne ad verilir? Ne işe yararlar?
+
+9.Cevap : veri tipi denir , değişkenler veya verilerin tipini belirlemek için kullanılır
+
+10. Aşağıdaki kodun çıktısı ne olur?
+
+    python
+    print("5" + "3")
+    
+10.Cevap : 53 şeklinde bir çıktı olur

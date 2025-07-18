@@ -1,0 +1,78 @@
+### ✅ Python 1. Hafta Test Soruları
+
+1. int(input("Bir sayı girin: ")) kodu ne işe yarar? Kullanıcı "5.5" gibi ondalıklı bir değer girerse ne olur?
+
+girdiyi "intager" olarak alır.	Sadece tam sayıları algılar ondalıklı sayıları kullandığımız zaman hata verir ondalıklı kullanmak "double" veya "float" kullanmamızgerekir
+
+2. if, elif ve else ifadeleri ne işe yarar? Aralarındaki fark nedir?
+
+if kullanıldığı zaman yanına yazılan koşulu karşıladığı takdirde 1 defa içine yazılan komudu uygular.
+elif kullanıldığı zaman yanına yazılan koşulu karşıladığı ve üzerinde olan  if komudunun yanındaki koşul karşılanmadığı takdirde içine yazılan komudu 1 defa uygular.
+else kullanıldığı zaman üzerinde bulunan if veya elif komutlarıının hiçbiri yanlarına yazılan koşulu sağlamadığı takdirde direkt olarak içine yazılan komudu 1 defa uygular.
+
+
+
+3. Aşağıdaki kodun çıktısı ne olur?
+
+   python
+   for i in range(5):
+       print(i)
+   
+	i
+	i
+	i
+	i
+	i
+
+
+
+4. Aşağıdaki while döngüsü hangi durumda sonsuz döngüye girer?
+
+   python
+   while sayi < 10:
+       print(sayi)
+       sayi += 1
+
+4. Cevap : "while sayi < 10" yerine "while true" yazarsak sonsuz döngüye girer.
+   
+
+
+5. Kullanıcı "abc" gibi bir metin girerse ve bu değer int() ile dönüştürülmeye çalışılırsa ne olur? Bu durumu nasıl kontrol altına alırsın?
+
+5. Cevap :
+try: a = int(input("Bir sayı girin: "))
+except: print("Geçersiz giriş!")
+
+6. random.randint(1, 100) ne işe yarar? randint ile randrange fonksiyonları arasındaki fark nedir?
+
+6. Cevap : 1 ile 100 arasında rastgele bir sayı tutar.
+
+7. Python dosyasının en başına şu satır neden yazılır?
+
+   python
+   # Yasin Eren Aktaş - 1. Hafta
+
+7. Cevap : kodu yazan kişinin kim olduğu ve hangi proje için yaptığını yazan bir açıklama satırıdır.
+   
+
+8. Bir for döngüsünü 1000 kez çalıştırıyorsun ama sadece 5 kez ekrana çıktı almak istiyorsun. Bunu nasıl yaparsın?
+
+8.Cevap : 
+for i in range(1000):
+    if i > 993:
+        print(i)
+
+9. Aşağıdaki kod ne işe yarar, kullanıcıdan ne bekler ve hangi durumda ne yazdırır?
+
+   python
+   sayi = int(input("Bir sayı girin: "))
+   if sayi % 2 == 0:
+       print("Çift sayı")
+   else:
+       print("Tek sayı")
+
+9. Cevap : girilen sayının modunu alır ve bu şekilde 2 ile tam bölündüğü zaman "Çift sayı" yazıyor bu kriteri karşılamadığı takdirde "Tek sayı" yazıyor.   
+
+10. Bu kodları tamamen sen mi yazdın? Aynı kodları sana sıfırdan yaz desek, tekrar yazabilir misin?
+
+10. Cevap : unuttuğum kısımlarda copilot tan yardım alarak yaptım

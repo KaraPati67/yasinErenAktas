@@ -1,0 +1,69 @@
+1. Hafta Seviyesi - 2. test
+print() fonksiyonunun içine birden fazla değişken nasıl yazılır? Örnek ver.
+
+1. Cevap : print(degisken1,degisken2) şelinde yazılıdığı zaman 2 değişken aynı print fonksiyonun içinde yazılır
+
+2. Aşağıdaki kod çalıştığında ne olur?
+
+python
+Kopyala
+Düzenle
+sayi = "10"
+toplam = sayi + 5
+
+2. Cevap : sayi değişkeni ile 5 i toplayıp toplam değişkeninin içine yazdırır
+
+3. input() fonksiyonu kullanıldığında gelen veri tipi (type) nedir?
+
+3. Cevap : String
+
+4. Kodda şöyle bir satır varsa, ne işe yarar?
+
+python
+Kopyala
+Düzenle
+print("Merhaba\nDünya")
+
+4.Cevap : \n alt satıra geçirmek için yazılır kendisinden sonra gelen bölümü alt satıra yazar çıktı şu şekilde olur:
+Merhaba
+Dünya
+
+5. len() fonksiyonu ne işe yarar? Bir örnekle açıklayın.
+
+5.Cevap : girilen verinin uzunluğunu bulur
+print(len("abc"))
+print(len([1,2,3,4,5,6,7,8,9,10]))
+
+6. type() fonksiyonu ne işe yarar?
+
+6.Cevap : içerisine girilen değerin hangi türünü bulur
+
+7. float() ile int() fonksiyonları arasındaki fark nedir?
+
+7.Cevap :  int() girilen sayıyı int olarak alır ve sadece tam sayıları kapsar float() ise bütün sayıları kapsar
+
+8. Aşağıdaki kod ne işe yarar?
+
+python
+Kopyala
+Düzenle
+for harf in "Python":
+    print(harf)
+
+8.Cevap: Python
+
+9. Python'da birden fazla koşulu kontrol etmek için hangi mantıksal operatörleri kullanırız?
+
+9.Cevap : and , or , not
+
+10. Aşağıdaki kod ne zaman else bloğunu çalıştırmaz?
+
+python
+Kopyala
+Düzenle
+if x > 10:
+    print("Büyük")
+else:
+    print("Küçük veya eşit")
+
+10.Cevap : x sayısı 11 veya daha büyük bir sayı olduğu zaman.
