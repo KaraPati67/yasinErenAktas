@@ -1,0 +1,20 @@
+.geri-buton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+.geri-buton:hover {
+    background-color: #5a6268;
+}
+h2 {
+    margin-top: 60px;
+}
