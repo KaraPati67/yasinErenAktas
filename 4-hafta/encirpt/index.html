@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="profile-avatar" id="profileAvatar" style="display:none;">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="16" stroke="#4ecdc4" stroke-width="2.5" fill="#e0f7fa" />
+      <circle cx="18" cy="12" r="7" fill="#ccc" />
+      <ellipse cx="18" cy="26" rx="10" ry="5.5" fill="#ccc" />
+    </svg>
+  </div>
+  <div class="dark-switch" id="darkSwitch" title="Koyu/ Açık Tema">
+    <div class="slider"></div>
+  </div>
+  <div class="profile-modal" id="profileModal">
+    <div class="profile-modal-content">
+      <span class="close-modal" id="closeProfileModal">&times;</span>
+      <div class="profile-modal-header">
+        <svg class="modal-avatar" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="36" cy="36" r="33" stroke="#4ecdc4" stroke-width="4" fill="#e0f7fa" />
+          <circle cx="36" cy="30" r="15" fill="#ccc" />
+          <ellipse cx="36" cy="54" rx="22" ry="12" fill="#ccc" />
+        </svg>
+        <div id="modal-username" class="modal-username">Kullanıcı</div>
+      </div>
+      <div class="profile-modal-actions">
+        <button id="logoutBtn" class="modal-btn logout-btn">Çıkış Yap</button>
+        <button id="deleteBtn" class="modal-btn delete-btn">Hesabı Sil</button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h2 id="form-title">Giriş Yap</h2>
+    <form id="auth-form" onsubmit="return handleSubmit(event)">
+      <div class="input-group">
+        <input type="text" id="username" autocomplete="username" required placeholder=" " />
+        <label for="username">Kullanıcı Adı</label>
+      </div>
+      <div class="input-group"> 
+        <input type="password" id="password" autocomplete="current-password" required placeholder=" " />
+        <label for="password">Şifre</label>
+      </div>
+      <button type="submit" id="submit-btn">Giriş Yap</button>
+    </form>
+    <p style="margin-top:10px;">
+      <span id="toggle-text">Hesabın yok mu?</span>
+      <kayit-button type="button" class="kayit-button" id="toggle-link" onclick="toggleMode(event)">Kayıt Ol</kayit-button>
+    </p>
+    <div class="greeting" id="greeting"></div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    // Profil avatarı ve modal açma/kapama
+
+    // Giriş başarılı olduğunda showProfile fonksiyonunu çağırmak için script.js dosyanızda
+    // greeting.textContent = data.message; satırından sonra showProfile(username); ekleyin.
+  </script>
+</body>
+</html>

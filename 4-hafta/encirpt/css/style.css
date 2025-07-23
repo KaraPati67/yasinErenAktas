@@ -1,0 +1,353 @@
+.profile-avatar {
+  /* ...existing code... */
+}
+body.dark .profile-avatar {
+  background: #232b36;
+  border: 2px solid #4ecdc4;
+}
+body.dark .profile-avatar img {
+  background: #232b36;
+  box-shadow: 0 0 0 2px #232b36;
+  filter: grayscale(0.25);
+}
+body {
+  background: #eaf6fb;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+.container {
+  background: #ffffff;
+  padding: 32px 44px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
+  text-align: center;
+}
+.input-group {
+  position: relative;
+  margin-bottom: 22px;
+  width: 100%;
+  text-align: left;
+}
+.input-group input {
+  width: 90%;
+  padding: 12px 10px 12px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #7ec4cf;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  color: #2d3a4a;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.input-group input:focus {
+  border-color: #4ecdc4;
+  background: transparent;
+  color: #247672;
+}
+.input-group label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  color: #7ec4cf;
+  font-size: 16px;
+  background: #ffffff;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: 0.2s;
+}
+  .input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -12px;
+  left: 8px;
+  font-size: 13px;
+  color: #4ecdc4;
+  background: #ffffff;
+}
+.dark-switch {
+  position: absolute;
+  top: 18px;
+  right: 30px;
+  cursor: pointer;
+  width: 48px;
+  height: 26px;
+  background-color: #7ec4cf;
+  border: 2px solid #4ecdc4;
+  border-radius: 20px;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+.dark-switch .slider {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  background: #e0f7fa;
+  border-radius: 50%;
+  transition: left 0.3s, background 0.3s;
+  box-shadow: 0 1px 4px rgba(126,196,207,0.15);
+    }
+    .dark-switch.active {
+  background-color: #247672;
+  border-color: #4ecdc4;
+    }
+    body.dark .dark-switch {
+  border-color: #4ecdc4;
+  background-color: #22313f;
+    }
+.dark-switch.active .slider {
+  left: 24px;
+  background: #4ecdc4;
+  border: #e0f7fa;
+}
+    body.dark {
+  background: #22313f;
+  color: #7ec4cf;
+    }
+    body.dark .container {
+  background: #2d3a4a;
+  color: #7ec4cf;
+  box-shadow: 0 4px 24px rgba(78,205,196,0.10);
+    }
+    body.dark .input-group input {
+  background: transparent;
+  color: #7ec4cf;
+  border-color: #4ecdc4;
+    }
+    body.dark .input-group input:focus {
+  border-color: #4ecdc4;
+  background: transparent;
+  color: #e0f7fa;
+    }
+    body.dark .input-group label {
+  background: #2d3a4a;
+  color: #4ecdc4;
+    }
+    body.dark .input-group input:focus + label,
+    body.dark .input-group input:not(:placeholder-shown) + label {
+  color: #4ecdc4;
+  background: #2d3a4a;
+    }
+    body.dark button {
+  background: #7d5fff;
+  color: #fff;
+    }
+    body.dark button:hover {
+  background: #5f27cd;
+  color: #fff;
+    }
+    body.dark .kayit-button {
+  color: #00a2ff;
+  background: transparent;
+    }
+    body.dark .kayit-button:hover {
+  color: #00d9ff;
+  background: #22313f;
+    }
+    button {
+  padding: 10px 20px;
+  background: #7d5fff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+    }
+    button:hover {
+  background: #5f27cd;
+  color: #fff;
+    }
+    kayit-button {
+  padding: 6px 13px;
+  color: #007dc5;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+    }
+    kayit-button:hover {
+  color: #00a2ff;
+  background: #ebebeb;
+}
+.greeting {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #247672;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+body.dark .greeting {
+  color: #7ec4cf;
+}
+.profile-avatar {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  background: #e0f7fa;
+  border: 2px solid #b2ebf2;
+  box-sizing: border-box;
+}
+.profile-avatar img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: block;
+  margin: 0;
+  filter: grayscale(0.15);
+  box-shadow: 0 0 0 2px #fff;
+  background: #fff;
+}
+.profile-avatar:hover img {
+  filter: grayscale(0.1) brightness(1.1);
+}
+.profile-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44,62,80,0.35);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.profile-modal.active {
+  display: flex;
+}
+/* Mini menü (profile-modal) temaya göre arka plan ve renkler */
+.profile-modal-content {
+  background: #fff;
+  width: 50vw;
+  min-width: 320px;
+  max-width: 480px;
+  min-height: 320px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.18);
+  padding: 32px 24px 24px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: modalIn 0.25s cubic-bezier(.4,2,.6,1) both;
+}
+body.dark .profile-modal-content {
+  background: #232b36;
+}
+@keyframes modalIn {
+  from { transform: translateY(-40px) scale(0.95); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+/* Kapatma butonu temaya göre renkler */
+.close-modal {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 2rem;
+  color: #7ec4cf;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+body:not(.dark) .close-modal {
+  color: #4ecdc4;
+}
+.close-modal:hover {
+  color: #4ecdc4;
+}
+body:not(.dark) .close-modal:hover {
+  color: #007dc5;
+}
+.profile-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+/* Modal avatar ve kullanıcı adı temaya göre */
+.modal-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  border: 2px solid #7ec4cf;
+  filter: grayscale(1);
+  background: #e0f7fa;
+}
+body.dark .modal-avatar {
+  background: #232b36;
+}
+.modal-username {
+  font-size: 1.2rem;
+  color: #247672;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+body.dark .modal-username {
+  color: #e0f7fa;
+}
+/* Modal butonları temaya göre */
+.profile-modal-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  align-items: center;
+}
+.modal-btn {
+  width: 80%;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.logout-btn {
+  background: #7ec4cf;
+  color: #232b36;
+}
+.logout-btn:hover {
+  background: #4ecdc4;
+  color: #fff;
+}
+.delete-btn {
+  background: #fff;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+}
+.delete-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+body.dark .delete-btn {
+  background: #232b36;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+}
+body.dark .delete-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+body.dark .logout-btn {
+  background: #7ec4cf;
+  color: #232b36;
+}
+body.dark .logout-btn:hover {
+  background: #4ecdc4;
+  color: #fff;
+}
