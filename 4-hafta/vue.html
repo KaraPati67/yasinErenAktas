@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Özel Özellik</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Vue ile Yapılabilen Özel Bir Şey</h1>
+    <label>Adınızı girin: <input v-model="name" placeholder="Adınız"></label>
+    <p>Girdiğiniz ad: <strong>{{ name }}</strong></p>
+    <p>Büyük harfli hali (computed): <strong>{{ upperName }}</strong></p>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: ''
+      },
+      computed: {
+        upperName() {
+          return this.name.toUpperCase();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
