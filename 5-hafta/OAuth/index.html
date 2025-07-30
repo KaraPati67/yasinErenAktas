@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google OAuth</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a202c;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #3182ce;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #2b6cb0;
+        }
+
+        .profile {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .profile span {
+            font-size: 1rem;
+            color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google OAuth ile Giriş Yap</h1>
+    <a href="/auth/google">Google ile Giriş Yap</a>
+
+    <div class="profile" id="profile" style="display: none;">
+        <img id="profile-pic" src="" alt="Profil Fotoğrafı">
+        <span id="profile-name"></span>
+    </div>
+
+    <script>
+        // Kullanıcı bilgilerini almak için bir API endpoint'i çağır
+        fetch('/user-info')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.name && data.picture) {
+                    document.getElementById('profile').style.display = 'flex';
+                    document.getElementById('profile-pic').src = data.picture;
+                    document.getElementById('profile-name').textContent = data.name;
+                }
+            })
+            .catch(err => console.error('Kullanıcı bilgileri alınamadı:', err));
+    </script>
+</body>
+</html>
