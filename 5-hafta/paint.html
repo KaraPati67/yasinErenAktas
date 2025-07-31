@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paint Uygulaması</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin: 30px;
+      background-color: #f0f0f0;
+    }
+
+    .controls {
+      margin-bottom: 10px;
+    }
+
+    canvas {
+      border: 2px solid #333;
+      cursor: crosshair;
+      background-color: white;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      border: none;
+      background-color: #ddd;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    button.active {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    select {
+      padding: 8px;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🖌️ Paint Uygulaması</h2>
+  <div class="controls">
+    <input type="color" id="colorPicker" value="#000000" />
+    <input type="range" id="brushSize" min="1" max="20" value="5" />
+    <button id="penBtn" class="active" onclick="setEraser(false)">✏️ Kalem</button>
+    <button id="eraserBtn" onclick="setEraser(true)">🧽 Silgi</button>
+    <button onclick="undo()">↩️ Geri Al</button>
+    <button onclick="redo()">↪️ İleri Al</button>
+    <button onclick="clearCanvas()">🧹 Temizle</button>
+    <button onclick="saveImage()">💾 Kaydet</button>
+    <select id="canvasSize" onchange="resizeCanvas()">
+        <option value="800x500">800x500</option>
+        <option value="1024x768">1024x768</option>
+        <option value="1280x720">1280x720</option>
+        <option value="1920x1080">1920x1080</option>
+        <option value="custom">Özel Boyut</option>
+    </select>
+    <input type="number" id="customWidth" placeholder="Genişlik" style="display:none;" />
+    <input type="number" id="customHeight" placeholder="Yükseklik" style="display:none;" />
+    <button id="applyCustomSize" style="display:none;" onclick="applyCustomSize()">Uygula</button>
+  </div>
+  <canvas id="canvas" width="800" height="500"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let isDrawing = false;
+    let color = document.getElementById("colorPicker").value;
+    let brushSize = document.getElementById("brushSize").value;
+    let isEraser = false;
+
+    const backgroundColor = getComputedStyle(canvas).backgroundColor;
+
+    // Geri alma için geçmiş
+    const undoStack = [];
+    const redoStack = [];
+
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
+      saveState(); // her çizime başlamadan önce kayıt
+      draw(e);
+    });
+
+    canvas.addEventListener("mouseup", () => {
+      isDrawing = false;
+      ctx.beginPath();
+    });
+
+    canvas.addEventListener("mousemove", draw);
+
+    function draw(e) {
+      if (!isDrawing) return;
+
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      ctx.lineWidth = brushSize;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = isEraser ? backgroundColor : color;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    document.getElementById("colorPicker").addEventListener("input", (e) => {
+      color = e.target.value;
+    });
+
+    document.getElementById("brushSize").addEventListener("input", (e) => {
+      brushSize = e.target.value;
+    });
+
+    function setEraser(state) {
+      isEraser = state;
+      document.getElementById("penBtn").classList.toggle("active", !isEraser);
+      document.getElementById("eraserBtn").classList.toggle("active", isEraser);
+      canvas.style.cursor = isEraser
+        ? `url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22${brushSize}%22 height=%22${brushSize}%22 viewBox=%220 0 ${brushSize} ${brushSize}%22%3E%3Ccircle cx=%22${brushSize / 2}%22 cy=%22${brushSize / 2}%22 r=%22${brushSize / 2}%22 fill=%22white%22 stroke=%22black%22 stroke-width=%221%22/%3E%3C/svg%3E') ${brushSize / 2} ${brushSize / 2}, auto`
+        : "crosshair";
+    }
+
+    function clearCanvas() {
+      saveState();
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveState() {
+      undoStack.push(canvas.toDataURL());
+      if (undoStack.length > 50) undoStack.shift();
+      redoStack.length = 0;
+    }
+
+    function undo() {
+      if (undoStack.length === 0) return;
+      redoStack.push(canvas.toDataURL());
+      const img = new Image();
+      img.src = undoStack.pop();
+      img.onload = () => ctx.drawImage(img, 0, 0);
+    }
+
+    function redo() {
+      if (redoStack.length === 0) return;
+      undoStack.push(canvas.toDataURL());
+      const img = new Image();
+      img.src = redoStack.pop();
+      img.onload = () => ctx.drawImage(img, 0, 0);
+    }
+
+    function saveImage() {
+      const link = document.createElement("a");
+      link.download = "cizim.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    function resizeCanvas() {
+        const size = document.getElementById("canvasSize").value;
+        if (size === "custom") {
+            document.getElementById("customWidth").style.display = "inline";
+            document.getElementById("customHeight").style.display = "inline";
+            document.getElementById("applyCustomSize").style.display = "inline";
+        } else {
+            const [width, height] = size.split("x");
+            canvas.width = parseInt(width);
+            canvas.height = parseInt(height);
+            clearCanvas();
+        }
+    }
+
+    function applyCustomSize() {
+        const width = document.getElementById("customWidth").value;
+        const height = document.getElementById("customHeight").value;
+        if (width && height) {
+            canvas.width = parseInt(width);
+            canvas.height = parseInt(height);
+            clearCanvas();
+        }
+    }
+
+    // ilk temizleme (beyaz tuval)
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  </script>
+</body>
+</html>
