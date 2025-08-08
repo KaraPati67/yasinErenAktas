@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoş Geldiniz</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #0d47a1;
+        }
+        a, button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #0d47a1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        a:hover, button:hover {
+            background-color: #1565c0;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notlar Uygulamasına Hoş Geldiniz</h1>
+        <textarea id="noteInput" placeholder="Notunuzu buraya yazın..."></textarea><br />
+        <button id="uploadNote">Notu Yükle</button>
+        <a href="viewNotes.html">Notları Görüntüle</a>
+    </div>
+
+  <script>
+    // Not Yükleme İşlevi
+    document.getElementById('uploadNote').addEventListener('click', async () => {
+      const note = document.getElementById('noteInput').value;
+      if (!note) {
+        alert('Lütfen bir not girin!');
+        return;
+      }
+
+      const response = await fetch('http://localhost:3000/uploadNote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note })
+      });
+
+      if (response.ok) {
+        alert('Not başarıyla yüklendi!');
+        document.getElementById('noteInput').value = '';
+      } else {
+        alert('Not yüklenirken bir hata oluştu.');
+      }
+    });
+  </script>
+</body>
+</html>

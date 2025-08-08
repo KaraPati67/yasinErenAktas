@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Ekle</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="profile-avatar" id="profileAvatar" style="display:none;">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="16" stroke="#4ecdc4" stroke-width="2.5" fill="#e0f7fa" />
+        <circle cx="18" cy="12" r="7" fill="#ccc" />
+        <ellipse cx="18" cy="26" rx="10" ry="5.5" fill="#ccc" />
+      </svg>
+    </div>
+    <div class="dark-switch" id="darkSwitch" title="Koyu/ Açık Tema">
+      <div class="slider"></div>
+    </div>
+  </header>
+
+  <div class="profile-modal" id="profileModal">
+    <div class="profile-modal-content">
+      <span class="close-modal" id="closeProfileModal">&times;</span>
+      <div class="profile-modal-header">
+        <svg class="modal-avatar" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="36" cy="36" r="33" stroke="#4ecdc4" stroke-width="4" fill="#e0f7fa" />
+          <circle cx="36" cy="30" r="15" fill="#ccc" />
+          <ellipse cx="36" cy="54" rx="22" ry="12" fill="#ccc" />
+        </svg>
+        <div id="modal-username" class="modal-username">Kullanıcı</div>
+      </div>
+      <div class="profile-modal-actions">
+        <button onclick="window.location.href='index.html'" class="modal-btn">Giriş Yap</button>
+        <button onclick="window.location.href='index.html'" id="logoutBtn" class="modal-btn logout-btn">Çıkış Yap</button>
+        <button id="deleteBtn" class="modal-btn delete-btn">Hesabı Sil</button>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+        <h1>Notlar Uygulamasına Hoş Geldiniz</h1>
+        <textarea id="noteInput" placeholder="Notunuzu buraya yazın..." style="width: 90%; height: 125px;"></textarea><br />
+        <button id="uploadNote">Notu Yükle</button>
+        <button><a href="not-gor.html">Notları Görüntüle</a></button>
+    </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Kullanıcı adı bilgisini saklamak için localStorage kullanıyoruz
+    const username = localStorage.getItem('username');
+
+    // Not Yükleme İşlevi
+    document.getElementById('uploadNote').addEventListener('click', async () => {
+      const note = document.getElementById('noteInput').value;
+      if (!note) {
+        alert('Lütfen bir not girin!');
+        return;
+      }
+
+      if (!username) {
+        alert('Kullanıcı adı bulunamadı. Lütfen giriş yapın.');
+        return;
+      }
+
+      const response = await fetch('http://localhost:3000/uploadNote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ not: note, username })
+      });
+
+      if (response.ok) {
+        alert('Not başarıyla yüklendi!');
+        document.getElementById('noteInput').value = '';
+      } else {
+        alert('Not yüklenirken bir hata oluştu.');
+      }
+    });
+
+    // Profil avatarını ve modalı giriş yapıldığında göster
+    function showProfile(username) {
+      const profileAvatar = document.getElementById('profileAvatar');
+      const modalUsername = document.getElementById('modal-username');
+      if (profileAvatar && modalUsername) {
+        profileAvatar.style.display = 'block';
+        modalUsername.textContent = username;
+      }
+    }
+  </script>
+</body>
+</html>

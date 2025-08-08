@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerçek Zamanlı CPU Sıcaklığı</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h2>Gerçek Zamanlı CPU Sıcaklığı Grafiği</h2>
+  <canvas id="sicaklikGrafik" width="600" height="300"></canvas>
+
+  <script>
+    const ctx = document.getElementById('sicaklikGrafik').getContext('2d');
+    const veri = {
+      labels: [],
+      datasets: [{
+        label: 'CPU Sıcaklığı (°C)',
+        data: [],
+        borderColor: 'red',
+        backgroundColor: 'rgba(255,0,0,0.3)',
+        fill: true,
+        tension: 0.3
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: veri,
+      options: {
+        scales: {
+          x: { title: { display: true, text: 'Zaman' } },
+          y: { min: 0, max: 100, title: { display: true, text: '°C' } }
+        }
+      }
+    };
+
+    const chart = new Chart(ctx, config);
+
+    async function sicaklikGetir() {
+      const res = await fetch('/sicaklik');
+      const json = await res.json();
+      const derece = json.sicaklik;
+
+      const now = new Date().toLocaleTimeString();
+
+      if (chart.data.labels.length > 20) {
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
+      }
+
+      chart.data.labels.push(now);
+      chart.data.datasets[0].data.push(derece);
+      chart.update();
+    }
+
+    setInterval(sicaklikGetir, 3000); // 3 saniyede bir güncelle
+  </script>
+</body>
+</html>
