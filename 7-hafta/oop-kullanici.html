@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kullanıcı Paneli</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+    margin: 0;
+    padding: 0;
+}
+h2 {
+  text-align: center;
+  margin-top: 32px;
+  color: #1976d2;
+  letter-spacing: 2px;
+}#kullaniciEkleFormu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+#kullaniciEkleFormu input {
+  border: 1px solid #bdbdbd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  background: #f5faff;
+  transition: border-color 0.2s;
+}
+#kullaniciEkleFormu input:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+#kullaniciEkleFormu button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#kullaniciEkleFormu button:hover {
+  background: #1565c0;
+}
+#panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.kart {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.08);
+  padding: 24px 20px 20px 20px;
+  margin: 0;
+  width: 220px;
+  background: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.kart:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.16);
+}
+.sil-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(229,57,53,0.12);
+  transition: background 0.2s;
+}
+.sil-btn:hover {
+  background: #b71c1c;
+}
+.kart strong {
+  font-size: 1.15rem;
+  color: #1976d2;
+  letter-spacing: 1px;
+}
+.kart span {
+  font-size: 1rem;
+  color: #555;
+  display: block;
+  margin-top: 8px;
+  word-break: break-all;
+}
+.modal-bg {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(25,118,210,0.18);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInBg 0.3s;
+}
+@keyframes fadeInBg {
+  from { background: rgba(25,118,210,0); }
+  to { background: rgba(25,118,210,0.18); }
+}
+.modal-bg.aktif {
+  display: flex;
+}
+.modal-kart {
+  background: linear-gradient(120deg, #e3f2fd 0%, #fff 100%);
+  border-radius: 24px;
+  padding: 48px 64px 40px 64px;
+  box-shadow: 0 8px 48px rgba(25, 118, 210, 0.18);
+  text-align: center;
+  font-size: 2rem;
+  position: relative;
+  min-width: 320px;
+  animation: popIn 0.25s;
+}
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-kapat {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(229,57,53,0.12);
+  transition: background 0.2s;
+}
+.modal-kapat:hover {
+  background: #b71c1c;
+}
+.modal-kart strong {
+  font-size: 2.2rem;
+  color: #1976d2;
+  letter-spacing: 2px;
+}
+.modal-kart span {
+  font-size: 1.25rem;
+  color: #555;
+  display: block;
+  margin-top: 18px;
+  word-break: break-all;
+}
+  </style>
+</head>
+<body>
+  <h2>Kullanıcı Kartları</h2>
+  <form id="kullaniciEkleFormu">
+    <input type="text" id="adSoyad" placeholder="Ad Soyad" required>
+    <input type="email" id="eposta" placeholder="E-posta" required>
+    <button type="submit">Kullanıcı Ekle</button>
+  </form>
+  <div id="panel"></div>
+  <div id="modalBg" class="modal-bg">
+    <div class="modal-kart" id="modalKart">
+      <button class="modal-kapat" id="modalKapat">Kapat</button>
+      <div id="modalIcerik"></div>
+    </div>
+  </div>
+  <script>
+    class Kullanici {
+      constructor(ad, eposta) {
+        this.ad = ad;
+        this.eposta = eposta;
+      }
+      goster(index) {
+        return `
+          <div class="kart" data-index="${index}">
+            <button class="sil-btn">Sil</button>
+            <strong>${this.ad}</strong><br>
+            <span>${this.eposta}</span>
+          </div>
+        `;
+      }
+    }
+
+    class Panel {
+      constructor(kullanicilar) {
+        this.kullanicilar = kullanicilar;
+      }
+      ekle(kullanici) {
+        this.kullanicilar.push(kullanici);
+        this.goster('panel');
+      }
+      sil(index) {
+        this.kullanicilar.splice(index, 1);
+        this.goster('panel');
+      }
+      goster(konteynerId) {
+        const konteyner = document.getElementById(konteynerId);
+        konteyner.innerHTML = this.kullanicilar.map((kullanici, i) => kullanici.goster(i)).join('');
+        Array.from(konteyner.getElementsByClassName('sil-btn')).forEach((btn, idx) => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            panel.sil(idx);
+          };
+        });
+        Array.from(konteyner.getElementsByClassName('kart')).forEach((kart, idx) => {
+          kart.onclick = () => {
+            modalGoster(panel.kullanicilar[idx]);
+          };
+        });
+      }
+    }
+
+    function modalGoster(kullanici) {
+      document.getElementById('modalIcerik').innerHTML = `
+        <strong>${kullanici.ad}</strong>
+        <span>${kullanici.eposta}</span>
+      `;
+      document.getElementById('modalBg').classList.add('aktif');
+    }
+    document.getElementById('modalKapat').onclick = function() {
+      document.getElementById('modalBg').classList.remove('aktif');
+    };
+    document.getElementById('modalBg').onclick = function(e) {
+      if (e.target === this) {
+        this.classList.remove('aktif');
+      }
+    };
+
+    const kullanicilar = [
+      new Kullanici('Yasin Eren Aktaş', 'y.e.aktas34@gmail.com')
+    ];
+    const panel = new Panel(kullanicilar);
+    panel.goster('panel');
+
+    document.getElementById('kullaniciEkleFormu').onsubmit = function(e) {
+      e.preventDefault();
+      const ad = document.getElementById('adSoyad').value.trim();
+      const eposta = document.getElementById('eposta').value.trim();
+      if (ad && eposta) {
+        panel.ekle(new Kullanici(ad, eposta));
+        document.getElementById('adSoyad').value = '';
+        document.getElementById('eposta').value = '';
+      }
+    };
+  </script>
+</body>
+</html>
