@@ -1,0 +1,79 @@
+body {
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  padding: 32px 0 24px 0;
+  text-align: center;
+  letter-spacing: 1px;
+  font-size: 2.1em;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(106,17,203,0.08);
+}
+
+header p {
+  font-size: 1.15em;
+  font-weight: 400;
+  margin-top: 8px;
+  letter-spacing: 0.2px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(37,117,252,0.10);
+  margin: 48px auto 80px auto; /* Alt boşluk eklendi */
+  max-width: 420px;
+  padding: 32px 28px;
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(37,117,252,0.18);
+}
+
+.card h2 {
+  color: #2575fc;
+  margin-bottom: 18px;
+  font-weight: 600;
+  font-size: 1.6em;
+  letter-spacing: 0.5px;
+}
+
+.card p {
+  color: #444;
+  font-size: 1.15em;
+  margin-bottom: 10px;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+}
+
+.card ul {
+  text-align: left;
+  margin: 18px auto 0 auto;
+  max-width: 320px;
+  padding-left: 18px;
+  color: #6a11cb;
+  font-size: 1em;
+  line-height: 1.6;
+  letter-spacing: 0.1px;
+}
+
+footer {
+  background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+  color: #fff;
+  text-align: center;
+  padding: 18px 0;
+  font-size: 1.05em;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -2px 12px rgba(37,117,252,0.08);
+  /* position: fixed; */
+  /* bottom: 0; */
+  /* width: 100%; */
+}
