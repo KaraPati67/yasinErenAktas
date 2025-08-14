@@ -1,0 +1,17 @@
+{
+  "name": "spa-app",
+  "version": "1.0.0",
+  "description": "A simple Single Page Application (SPA) structure using JavaScript.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step not defined'",
+    "test": "echo 'No tests defined'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

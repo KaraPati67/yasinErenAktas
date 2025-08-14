@@ -1,0 +1,173 @@
+body {
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0 10px;
+    background: #f5f6fa;
+    min-height: 100vh;
+    color: #232946;
+    letter-spacing: 0.01em;
+    font-size: 1.07rem;
+}
+
+header {
+    background: linear-gradient(90deg, #35424a 60%, #22313f 100%);
+    color: #fff;
+    padding: 24px 0 16px 0;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(53,66,74,0.12);
+    letter-spacing: 2px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+nav {
+    margin: 28px 0 18px 0;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+nav a {
+    color: #232946;
+    text-decoration: none;
+    padding: 10px 28px;
+    border-radius: 24px;
+    background: #e7eaf6;
+    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    font-weight: 600;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(35,41,70,0.04);
+    border: none;
+}
+
+nav a:hover {
+    background: #b8c1ec;
+    color: #232946;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px #b8c1ec55;
+}
+
+.container {
+    width: 92%;
+    max-width: 900px;
+    margin: 36px auto 36px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(35,41,70,0.07);
+    padding: 36px 32px;
+    overflow: hidden;
+}
+
+footer {
+    text-align: center;
+    padding: 24px 0 18px 0;
+    background: #e7eaf6;
+    color: #232946;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 1.11rem;
+    letter-spacing: 1.1px;
+    box-shadow: 0 -2px 8px #b8c1ec33;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    color: #232946;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: none;
+}
+
+p, li, label, span, a, button {
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+
+strong, b {
+    color: #3e5c76;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
+    margin: 0 auto 32px auto;
+    padding: 32px 24px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(60,72,88,0.18);
+    backdrop-filter: blur(2px);
+    border: 1.5px solid #e3e6e8;
+    transition: box-shadow 0.3s;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 220px;
+    padding: 10px 14px;
+    margin: 10px 0 18px 0;
+    border: 1.5px solid #e3e6e8;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #f9fafb 80%, #e3e6e8 100%);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;
+    box-sizing: border-box;
+    outline: none;
+    display: block;
+    box-shadow: 0 2px 8px rgba(60,72,88,0.07);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: #e8491d;
+    box-shadow: 0 0 0 3px #e8491d33, 0 2px 12px rgba(60,72,88,0.10);
+    background: #fff;
+    animation: inputFocus 0.3s;
+}
+
+@keyframes inputFocus {
+    0% { box-shadow: 0 0 0 0 #e8491d33; }
+    100% { box-shadow: 0 0 0 3px #e8491d33, 0 2px 12px rgba(60,72,88,0.10); }
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #22313f;
+    letter-spacing: 0.5px;
+    font-size: 1.02rem;
+}
+
+form button[type="submit"] {
+    background: linear-gradient(90deg, #e8491d 60%, #ff7e5f 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(232,73,29,0.10);
+    letter-spacing: 1px;
+    margin-top: 8px;
+}
+
+form button[type="submit"]:hover {
+    background: linear-gradient(90deg, #35424a 60%, #22313f 100%);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 18px rgba(53,66,74,0.13);
+}
