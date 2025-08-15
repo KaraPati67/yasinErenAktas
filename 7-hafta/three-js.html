@@ -1,0 +1,116 @@
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(120deg, #e3f0ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    color: #2d3748;
+    overflow: hidden;
+  }
+  #threejs {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    pointer-events: none; /* Mouse olayları arka plana geçsin */
+  }
+  #controls {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 320px;
+    max-width: 90vw;
+    background: rgba(255,255,255,0.85);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+    z-index: 10;
+    padding: 18px 32px 14px 32px;
+    text-align: center;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    font-size: 17px;
+    color: #2d3748;
+    letter-spacing: 0.01em;
+    border: 1px solid #e3e8ee;
+    transition: background 0.3s;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<div id="controls">
+  <div style="font-weight:600; margin-bottom:8px; font-size:18px; letter-spacing:0.01em;">Küpü hareket ettirmek için mouse'u kullan</div>
+  <div style="margin-bottom:8px; color:#4a5568; font-size:15px;">Küpü döndürmek için sayfada tıklayıp sürükleyin.</div>
+  <label for="colorPicker" style="margin-right:8px; font-size:16px;">Küp Rengi:</label>
+  <input type="color" id="colorPicker" value="#0077ff" style="width:36px; height:36px; border:none; background:transparent; cursor:pointer; vertical-align:middle;" />
+</div>
+<div id="threejs"></div>
+<script>
+const scene = new THREE.Scene();
+
+const threejsDiv = document.getElementById('threejs');
+const width = window.innerWidth;
+const height = window.innerHeight;
+const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setClearColor(0x000000, 0); // saydam arka plan
+renderer.setSize(width, height);
+threejsDiv.appendChild(renderer.domElement);
+
+window.addEventListener('resize', () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  renderer.setSize(width, height);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+});
+
+const geometry = new THREE.BoxGeometry(1, 1, 1, 32, 32, 32);
+const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+const light = new THREE.PointLight(0xffffff, 1, 100);
+light.position.set(2, 2, 5);
+scene.add(light);
+
+camera.position.z = 3;
+
+// Mouse ile döndürme
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+
+
+// Tüm sayfa tıklanabilir olsun
+window.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+window.addEventListener('mouseup', function() {
+  isDragging = false;
+});
+window.addEventListener('mouseleave', function() {
+  isDragging = false;
+});
+window.addEventListener('mousemove', function(e) {
+  if (!isDragging) return;
+  const deltaMove = {
+    x: e.clientX - previousMousePosition.x,
+    y: e.clientY - previousMousePosition.y
+  };
+  cube.rotation.y += deltaMove.x * 0.01;
+  cube.rotation.x += deltaMove.y * 0.01;
+  previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+// Renk seçici
+document.getElementById('colorPicker').addEventListener('input', function(e) {
+  cube.material.color.set(e.target.value);
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+animate();
+</script>
