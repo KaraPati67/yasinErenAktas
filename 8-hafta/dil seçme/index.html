@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Çoklu Dil Destekli Sayfa</title>
+	<link rel="stylesheet" href="css.css">
+</head>
+<body>
+	<button class="lang-btn" id="langBtn"><span id="langFlag">🇹🇷</span></button>
+	<div id="langPanel" class="lang-panel" style="display:none;">
+		<div class="lang-panel-inner">
+			<div class="lang-title">Dil Seçin / Select Language</div>
+			<button class="lang-option" data-lang="tr">Türkçe</button>
+			<button class="lang-option" data-lang="en">English</button>
+			<button class="lang-close" id="langClose">Kapat</button>
+		</div>
+	</div>
+	<div class="content" id="mainContent">
+		<h1>Hakkımda</h1>
+		<p id="mainText">
+			Merhaba benim adım Yasin. Ben bir yazılım geliştiricisiyim ve web teknolojilerine ilgi duyuyorum.
+		</p>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>
