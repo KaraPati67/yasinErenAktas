@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mesajlaşma uygulaması</title>
+  <style>
+    body { font-family: Arial; background: #f8fafc; margin: 0; }
+    #chat, #login { max-width: 90%; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px #0001; padding: 24px; }
+    #messages { list-style: none; padding: 0; max-height: 250px; overflow-y: auto; }
+    #messages li { margin-bottom: 12px; }
+    #m { width: 90%; padding: 8px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #ddd; }
+    #send { width: 100%; padding: 10px; background: #6366f1; color: #fff; border: none; border-radius: 5px; font-size: 1rem; }
+    #send:hover { background: #4f46e5; }
+    #login input { width: 98%; padding: 10px; margin-bottom: 12px; border-radius: 5px; border: 1px solid #ddd; font-size: 1.1rem; }
+    #login button { width: 100%; padding: 10px;  background: #6366f1; color: #fff; border: none; border-radius: 5px; font-size: 1.1rem; }
+    #login button:hover { background: #4f46e5; }
+    .sender { font-weight: bold; color: #6366f1; display: block; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <h2>Kullanıcı Adı Seç</h2>
+    <input id="username" autocomplete="off" placeholder="Kullanıcı adınız" />
+    <label style="display:block; margin-bottom:10px; margin-top:4px; font-size:0.98rem; color:#6366f1;">
+      <span style="margin-right:6px;">İsim Rengi:</span>
+      <input type="color" id="userColor" value="#6366f1" style="vertical-align:middle; border-radius: 50%; width:48px; height:48px; border:2px solid #6366f1; background:#fff; cursor:pointer; box-shadow:0 2px 8px #6366f122;" />
+    </label>
+    <button id="loginBtn">Tamam</button>
+  </div>
+  <div id="chat" style="display:none; position:relative;">
+    <div id="userPanel" style="margin-bottom:12px; display:flex; flex-direction:column; align-items:flex-start;">
+      <span id="currentUser" style="font-weight:bold; margin-bottom:2px; margin-left:4px;"></span>
+      <label style="display:flex; align-items:center; margin-bottom:8px; margin-left:4px;">
+        <span style="font-size:0.95rem; color:#6366f1; margin-right:6px;">İsim Rengi:</span>
+        <input type="color" id="userColorPanel" value="#6366f1" style="width:32px; height:32px; border-radius:50%; border:2px solid #6366f1; background:#fff; cursor:pointer; box-shadow:0 2px 8px #6366f122;" />
+      </label>
+      <button id="changeUserBtn" style="background:#e0e7ff; color:#3730a3; border:none; border-radius:5px; padding:4px 10px; font-size:0.95rem; cursor:pointer;">Kullanıcı Adı Değiştir</button>
+    </div>
+    <ul id="messages"></ul>
+    <input id="m" autocomplete="off" placeholder="Mesajınız" />
+    <button id="send">Gönder</button>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+  let username = '';
+  let userColor = '#6366f1';
+    const loginDiv = document.getElementById('login');
+    const chatDiv = document.getElementById('chat');
+    const usernameInput = document.getElementById('username');
+  const loginBtn = document.getElementById('loginBtn');
+  const userColorInput = document.getElementById('userColor');
+  const userColorPanel = document.getElementById('userColorPanel');
+    const messages = document.getElementById('messages');
+    const msgInput = document.getElementById('m');
+    const sendBtn = document.getElementById('send');
+    const userPanel = document.getElementById('userPanel');
+    const currentUser = document.getElementById('currentUser');
+    const changeUserBtn = document.getElementById('changeUserBtn');
+
+    function showUserPanel(name, color) {
+      currentUser.textContent = name ? `👤 ${name}` : '';
+      currentUser.style.color = color || '#6366f1';
+      userPanel.style.display = name ? 'flex' : 'none';
+      if (userColorPanel) userColorPanel.value = color || '#6366f1';
+    }
+
+    loginBtn.onclick = function() {
+      if (!usernameInput.value.trim()) return;
+      username = usernameInput.value.trim();
+      userColor = userColorInput.value || '#6366f1';
+      loginDiv.style.display = 'none';
+      chatDiv.style.display = 'block';
+      showUserPanel(username, userColor);
+      msgInput.focus();
+    };
+
+    if (userColorPanel) {
+      userColorPanel.addEventListener('input', function() {
+        userColor = userColorPanel.value;
+        currentUser.style.color = userColor;
+      });
+    }
+
+    changeUserBtn.onclick = function() {
+      chatDiv.style.display = 'none';
+      loginDiv.style.display = 'block';
+      usernameInput.value = '';
+      usernameInput.focus();
+      showUserPanel('', userColor);
+    };
+
+
+    sendBtn.onclick = function() {
+      if (!msgInput.value.trim()) return;
+      socket.emit('chat message', { name: username, text: msgInput.value, color: userColor });
+      msgInput.value = '';
+    };
+
+    msgInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+      // Shift+Enter: default behavior (newline)
+    });
+
+    socket.on('chat message', function(msg){
+      const li = document.createElement('li');
+      const safeColor = /^#[0-9a-fA-F]{6}$/.test(msg.color) ? msg.color : '#6366f1';
+      li.innerHTML = `<span class="sender" style="color:${safeColor}">${msg.name}</span><span>${msg.text}</span>`;
+      messages.appendChild(li);
+      messages.scrollTop = messages.scrollHeight;
+    });
+  </script>
+</body>
+</html>
