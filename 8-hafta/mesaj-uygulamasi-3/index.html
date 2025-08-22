@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>DM & Genel Chat</title>
+  <style>
+    html, body {
+      height: 100%;
+      min-height: 100%;
+    }
+    body {
+      min-height: 100vh;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      font-family: Arial, sans-serif;
+      transition: background 0.2s;
+    }
+        #login-form input[type="text"]:focus {
+      outline: none;
+      border: 2px solid #6366f1;
+    }
+    body.dark #login-form input[type="text"]:focus {
+      border: 2px solid #6366f1;
+    }
+    #container {
+      display: flex;
+      height: 100vh;
+      min-height: 100vh;
+      max-width: 100vw;
+      margin: 0;
+      background: none;
+      gap: 5px;
+    }
+    #sidebar {
+      width: 270px;
+      min-width: 220px;
+      max-width: 320px;
+      height: 100vh;
+      min-height: 100vh;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      border-radius: 0 14px 14px 0;
+      box-shadow: 0 2px 12px #0001;
+      border: 1px solid #e5e7eb;
+      margin: 0;
+      padding: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    #sidebar-inner {
+      margin: 24px 16px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: 100%;
+    }
+    #userPanel { margin-bottom: 18px; }
+    #userPanel label { font-size: 0.98rem; color: #6366f1; }
+    #userPanel input[type="color"] {
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 15%;
+      border: 2px solid #6366f1;
+      background: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #6366f122;
+      margin-bottom: 16px;
+    }
+    #changeUserBtn {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    body.dark #changeUserBtn {
+      background: #3730a3;
+      color: #a5b4fc;
+    }
+    body.dark #changeUserBtn:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+    #chatlist-form {
+      background: #f6f8fa;
+      border-radius: 10px;
+      box-shadow: none;
+      padding: 12px 6px 6px 6px;
+      margin-bottom: 10px;
+      border: none;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+    }
+    #sidebar h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.08rem;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+    .user {
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      transition: background 0.15s;
+      border: none;
+      background: none;
+    }
+    .user.active, .user:hover { background: #e0e7ff; }
+    .user .dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; display: inline-block; }
+    #main {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 14px 0 0 14px;
+      box-shadow: 0 2px 12px #0001;
+      border: 1px solid #e5e7eb;
+      min-height: 100vh;
+      height: 100vh;
+      max-width: 100vw;
+      overflow: hidden;
+      transition: background 0.2s, color 0.2s;
+    }
+    #messages {
+      list-style: none;
+      padding: 0;
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+      flex: 1;
+    }
+    #messages li { margin-bottom: 12px; }
+    #roomTitle { margin-bottom: 8px; }
+    #m { width: 80%; padding: 8px; border-radius: 5px; border: 1px solid #ddd; }
+    #send { padding: 10px 18px; background: #6366f1; color: #fff; border: none; border-radius: 5px; font-size: 1rem; }
+    #send:hover { background: #4f46e5; }
+    #login-form {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #0001;
+      border: 1px solid #e5e7eb;
+      max-width: 340px;
+      margin: 80px auto 0 auto;
+      padding: 32px 28px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    #login-form h2 {
+      margin-bottom: 18px;
+      font-size: 1.3rem;
+      color: #6366f1;
+      font-weight: 600;
+    }
+    #login-form input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 14px;
+      border-radius: 5px;
+      border: 1.5px solid #bfc6e6;
+      font-size: 1.1rem;
+      box-sizing: border-box;
+      background: #fff;
+      color: #232634;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      box-shadow: none;
+    }
+    #login-form input[type="text"]:focus {
+      outline: none;
+      border: 2px solid #6366f1;
+      box-shadow: 0 0 0 2px #e0e7ff;
+    }
+    body.dark #login-form input[type="text"] {
+      background: #232634;
+      color: #e5e7eb;
+      border: 1.5px solid #32344a;
+      box-shadow: none;
+    }
+    body.dark #login-form input[type="text"]:focus {
+      border: 2px solid #6366f1;
+      box-shadow: 0 0 0 2px #32344a;
+    }
+    #login-form input[type="color"] {
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 15%;
+      border: 2px solid #6366f1;
+      background: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #6366f122;
+      margin-bottom: 16px;
+    }
+    #login-form button {
+      width: 100%;
+      padding: 10px;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+    #login-form button:hover { background: #4f46e5; }
+    .sender { font-weight: bold; display: block; margin-bottom: 2px; }
+    /* Tema butonu */
+    #theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      z-index: 1000;
+      background: #fff;
+      color: #6366f1;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    #theme-toggle:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+    /* Koyu tema */
+    body.dark {
+      background: #181a20;
+      color: #e5e7eb;
+    }
+    body.dark #sidebar,
+    body.dark #main,
+    body.dark #login-form {
+      background: #232634;
+      color: #e5e7eb;
+      border-color: #232634;
+    }
+    body.dark #sidebar h3,
+    body.dark #login-form h2 {
+      color: #a5b4fc;
+    }
+    body.dark .user.active, body.dark .user:hover {
+      background: #32344a;
+    }
+    body.dark #chatlist-form {
+      background: #232634;
+    }
+    body.dark #send, body.dark #login-form button {
+      background: #6366f1;
+      color: #fff;
+    }
+    body.dark #send:hover, body.dark #login-form button:hover {
+      background: #4f46e5;
+    }
+    body.dark #theme-toggle {
+      background: #232634;
+      color: #a5b4fc;
+      border-color: #32344a;
+    }
+    body.dark #theme-toggle:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+    body.dark #m {
+      background: #232634;
+      color: #e5e7eb;
+      border-color: #32344a;
+    }
+    body.dark #m::placeholder {
+      color: #a5b4fc;
+      opacity: 0.7;
+    }
+    /* Dil butonu koyu tema */
+    body.dark #lang-toggle {
+      background: #232634 !important;
+      color: #a5b4fc !important;
+      border-color: #32344a !important;
+    }
+    body.dark #lang-toggle:hover {
+      background: #6366f1 !important;
+      color: #fff !important;
+    }
+    @media (max-width: 900px) {
+      #sidebar { width: 180px; min-width: 120px; }
+    }
+    @media (max-width: 700px) {
+      #container { flex-direction: column; min-width: 0; gap: 0; height: 100vh; }
+      #sidebar, #main { min-height: unset; border-radius: 0; height: auto; }
+      #sidebar { width: 100vw; max-width: 100vw; border-right: none; border-bottom: 1px solid #e5e7eb; }
+      #main { padding: 12px; }
+      #sidebar-inner { margin: 12px 4px; }
+      #chatlist-form { padding: 8px 4px; }
+      #login-form { margin: 40px 8px 0 8px; }
+      #theme-toggle { top: 10px; right: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <button id="theme-toggle" title="Tema Değiştir">🌙</button>
+  <button id="lang-toggle" style="position:fixed;top:70px;right:24px;z-index:1000;background:#fff;color:#6366f1;border:1.5px solid #e5e7eb;border-radius:12px;width:44px;height:32px;font-size:1.05rem;cursor:pointer;box-shadow:0 2px 8px #0002;display:flex;align-items:center;justify-content:center;transition:background 0.2s,color 0.2s;">EN</button>
+  <div id="login">
+    <form id="login-form" autocomplete="off">
+      <h2>Kullanıcı Adı Seç</h2>
+      <input id="username" type="text" autocomplete="off" placeholder="Kullanıcı adınız" />
+      <label style="display:block; margin-bottom:10px; margin-top:4px;">
+        <span style="margin-right:6px;">İsim Rengi:</span>
+        <input type="color" id="userColor" value="#6366f1" />
+      </label>
+      <button id="loginBtn" type="submit">Tamam</button>
+    </form>
+  </div>
+  <div id="container" style="display:none;">
+    <div id="sidebar">
+      <div id="sidebar-inner">
+        <div id="userPanel">
+          <span id="currentUser" style="font-weight:bold;"></span><br>
+          <label>
+            <span>İsim Rengi:</span>
+            <input type="color" id="userColorPanel" value="#6366f1" />
+          </label><br>
+          <button id="changeUserBtn">Kullanıcı Adı Değiştir</button>
+        </div>
+        <form id="chatlist-form" onsubmit="return false;">
+          <h3>Sohbetler</h3>
+          <div id="chatlist"></div>
+        </form>
+      </div>
+    </div>
+    <div id="main">
+      <div id="roomTitle">Genel Sohbet</div>
+      <ul id="messages"></ul>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <input id="m" autocomplete="off" placeholder="Mesajınız" />
+        <button id="send">Gönder</button>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Çoklu dil desteği
+    const LANGS = {
+      tr: {
+        title: 'DM & Genel Chat',
+        loginTitle: 'Kullanıcı Adı Seç',
+        usernamePlaceholder: 'Kullanıcı adınız',
+        colorLabel: 'İsim Rengi:',
+        loginBtn: 'Tamam',
+        changeUser: 'Kullanıcı Adı Değiştir',
+        chats: 'Sohbetler',
+        general: '🌐 Genel Sohbet',
+        dmWith: name => `💬 ${name} ile DM`,
+        send: 'Gönder',
+        msgPlaceholder: 'Mesajınız',
+        theme: 'Tema Değiştir',
+        themeLight: 'Açık Tema',
+        themeDark: 'Koyu Tema',
+        lang: 'EN',
+        langSwitch: 'Dili Değiştir'
+      },
+      en: {
+        title: 'DM & General Chat',
+        loginTitle: 'Choose Username',
+        usernamePlaceholder: 'Your username',
+        colorLabel: 'Name Color:',
+        loginBtn: 'OK',
+        changeUser: 'Change Username',
+        chats: 'Chats',
+        general: '🌐 General Chat',
+        dmWith: name => `💬 DM with ${name}`,
+        send: 'Send',
+        msgPlaceholder: 'Your message',
+        theme: 'Switch Theme',
+        themeLight: 'Light Theme',
+        themeDark: 'Dark Theme',
+        lang: 'TR',
+        langSwitch: 'Switch Language'
+      }
+    };
+    let currentLang = localStorage.getItem('lang') || 'tr';
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.title = LANGS[lang].title;
+      document.querySelector('h2').textContent = LANGS[lang].loginTitle;
+      document.getElementById('username').placeholder = LANGS[lang].usernamePlaceholder;
+      document.querySelector('#login-form label span').textContent = LANGS[lang].colorLabel;
+      document.getElementById('loginBtn').textContent = LANGS[lang].loginBtn;
+      document.getElementById('changeUserBtn').textContent = LANGS[lang].changeUser;
+      document.querySelector('#chatlist-form h3').textContent = LANGS[lang].chats;
+      document.getElementById('send').textContent = LANGS[lang].send;
+      document.getElementById('m').placeholder = LANGS[lang].msgPlaceholder;
+      document.getElementById('theme-toggle').title = LANGS[lang].theme;
+      document.getElementById('lang-toggle').textContent = LANGS[lang].lang;
+      document.getElementById('lang-toggle').title = LANGS[lang].langSwitch;
+      // Oda başlığı
+      if (privateTo === null) {
+        document.getElementById('roomTitle').textContent = LANGS[lang].general;
+      } else {
+        document.getElementById('roomTitle').textContent = LANGS[lang].dmWith(privateName);
+      }
+      renderChatList();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      setLang(currentLang);
+    });
+    document.getElementById('lang-toggle').onclick = function() {
+      setLang(currentLang === 'tr' ? 'en' : 'tr');
+    };
+    // Tema değiştirici
+    const themeBtn = document.getElementById('theme-toggle');
+    function setTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeBtn.innerHTML = dark ? '☀️' : '🌙';
+      themeBtn.title = dark ? 'Açık Tema' : 'Koyu Tema';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+    // İlk yüklemede tema
+    setTheme(localStorage.getItem('theme') === 'dark');
+    themeBtn.onclick = () => setTheme(!document.body.classList.contains('dark'));
+
+    // Chat uygulaması kodları (değişmedi)
+    const socket = io();
+    let username = '';
+    let userColor = '#6366f1';
+    let users = [];
+    let privateTo = null; // socket.id
+    let privateName = '';
+    let privateColor = '';
+    let mySocketId = null;
+
+    // Mesaj geçmişi: { genel: [...], <socketId>: [...] }
+    let messageHistory = { genel: [] };
+
+    // DOM
+    const loginDiv = document.getElementById('login');
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const loginBtn = document.getElementById('loginBtn');
+    const userColorInput = document.getElementById('userColor');
+    const userColorPanel = document.getElementById('userColorPanel');
+    const container = document.getElementById('container');
+    const chatlistDiv = document.getElementById('chatlist');
+    const messages = document.getElementById('messages');
+    const msgInput = document.getElementById('m');
+    const sendBtn = document.getElementById('send');
+    const roomTitle = document.getElementById('roomTitle');
+    const userPanel = document.getElementById('userPanel');
+    const currentUser = document.getElementById('currentUser');
+    const changeUserBtn = document.getElementById('changeUserBtn');
+
+    function showUserPanel(name, color) {
+      currentUser.textContent = name ? `👤 ${name}` : '';
+      currentUser.style.color = color || '#6366f1';
+      userPanel.style.display = name ? 'block' : 'none';
+      if (userColorPanel) userColorPanel.value = color || '#6366f1';
+    }
+
+    // Kullanıcı adı seçme formu gönderildiğinde
+    loginForm.onsubmit = function(e) {
+      e.preventDefault();
+      if (!usernameInput.value.trim()) return;
+      username = usernameInput.value.trim();
+      userColor = userColorInput.value || '#6366f1';
+      loginDiv.style.display = 'none';
+      container.style.display = 'flex';
+      showUserPanel(username, userColor);
+      socket.emit('register', { name: username, color: userColor });
+      msgInput.focus();
+    };
+
+    if (userColorPanel) {
+      userColorPanel.addEventListener('input', function() {
+        userColor = userColorPanel.value;
+        currentUser.style.color = userColor;
+        socket.emit('register', { name: username, color: userColor });
+      });
+    }
+
+    changeUserBtn.onclick = function() {
+      container.style.display = 'none';
+      loginDiv.style.display = 'block';
+      usernameInput.value = '';
+      usernameInput.focus();
+      showUserPanel('', userColor);
+    };
+
+    socket.on('connect', () => {
+      mySocketId = socket.id;
+    });
+
+    socket.on('userlist', (userArr) => {
+      users = userArr;
+      renderChatList();
+    });
+
+    function renderChatList() {
+      chatlistDiv.innerHTML = '';
+      // Genel sohbet en üstte sabit
+      const genel = document.createElement('div');
+      genel.textContent = LANGS[currentLang].general;
+      genel.className = 'user' + (privateTo === null ? ' active' : '');
+      genel.onclick = () => {
+        privateTo = null;
+        roomTitle.textContent = LANGS[currentLang].general;
+        renderChatList();
+        renderMessages();
+      };
+      chatlistDiv.appendChild(genel);
+
+      users.forEach(u => {
+        if (u.name === username) return; // Kendini listeleme
+        const div = document.createElement('div');
+        div.className = 'user' + (privateTo === u.socketId ? ' active' : '');
+        div.innerHTML = `<span class="dot" style="background:${u.color || '#6366f1'}"></span>${u.name}`;
+        div.onclick = () => {
+          privateTo = u.socketId;
+          privateName = u.name;
+          privateColor = u.color || '#6366f1';
+          roomTitle.textContent = LANGS[currentLang].dmWith(u.name);
+          renderChatList();
+          renderMessages();
+        };
+        chatlistDiv.appendChild(div);
+      });
+    }
+
+    sendBtn.onclick = function() {
+      if (!msgInput.value.trim()) return;
+      if (privateTo) {
+        socket.emit('private message', { to: privateTo, msg: msgInput.value });
+      } else {
+        socket.emit('chat message', { name: username, text: msgInput.value, color: userColor });
+      }
+      msgInput.value = '';
+    };
+
+    msgInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    socket.on('chat message', function(msg){
+      if (!messageHistory.genel) messageHistory.genel = [];
+      messageHistory.genel.push(msg);
+      if (privateTo === null) renderMessages();
+    });
+
+    socket.on('private message', function({ from, msg, user }) {
+      const key = from === mySocketId ? privateTo : from;
+      if (!messageHistory[key]) messageHistory[key] = [];
+      if (from === mySocketId) {
+        messageHistory[key].push({ name: user.name, text: msg, color: user.color });
+      } else if (privateTo === from) {
+        messageHistory[key].push({ name: user.name, text: msg, color: user.color });
+      }
+      if (privateTo === key) renderMessages();
+    });
+
+    function renderMessages() {
+      messages.innerHTML = '';
+      let key = privateTo === null ? 'genel' : privateTo;
+      (messageHistory[key] || []).forEach(msg => {
+        const li = document.createElement('li');
+        const safeColor = /^#[0-9a-fA-F]{6}$/.test(msg.color) ? msg.color : '#6366f1';
+        li.innerHTML = `<span class="sender" style="color:${safeColor}">${msg.name}</span><span>${msg.text}</span>`;
+        messages.appendChild(li);
+      });
+      messages.scrollTop = messages.scrollHeight;
+    }
+  </script>
+</body>
+</html>
